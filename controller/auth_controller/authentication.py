@@ -75,7 +75,16 @@ async def register_user(request:Request,register:Register):
             )
             return response
 
-        #save user if validation is successfull
-
+        #save user if validation is
+        validation_status = user_regestration.authenticate_user_registration()
+        msg = "Registration Successful...Please Login to continue"
+        response = JSONResponse(
+            status_code=status.HTTP_200_OK,
+            content={"status": True, "message": validation_status["msg"]},
+            headers={"uuid": user.uuid_},
+        )
+        return response
+    except Exception as e:
+        raise e
 
 

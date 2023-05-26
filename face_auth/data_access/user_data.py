@@ -11,7 +11,8 @@ class UserData:
         self.collection_name = USER_COLLECTION_NAME
         self.collection = self.client.database[self.collection_name]
 
-
+    def save_user(self,user):
+        self.collection.insert_one(user)
     def get_user(self,query):
         user = self.collection.find_one(query)
         return user

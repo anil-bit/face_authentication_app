@@ -143,8 +143,19 @@ class RegisterValidation:
             if self.validate_registration()["status"]:
                 logging.info("genrating the password hash.....")
                 hashed_password: str = self.get_password_hash(self.user.password1)
-                user_data_dict =
-
+                user_data_dict: dict = {
+                    "Name":self.user.Name,
+                    "username":self.user.username,
+                    "password":hashed_password,
+                    "ph_no":self.user.ph_no,
+                    "UUID":self.uuid,
+                }
+                logging.info("saving the user details in the database")
+                self.userdata.save_user(user_data_dict)
+                logging .info("saving the user details completed")
+                return {"status":True,"msg":"user registered successfully"}
+            logging.info("Validation failed while Registration.....")
+            return {"status": False, "msg": self.validation()}
 
         except Exception as e:
             raise e
